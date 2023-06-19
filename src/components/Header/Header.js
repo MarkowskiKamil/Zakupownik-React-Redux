@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import {
   loadProducts,
   setProductsLoadingState,
+  removeProducts,
+  removeProductsFromShoppingList,
   setResponseError,
 } from "../../redux/productsSlice";
 import axios from "axios";
@@ -32,6 +34,28 @@ function Header(props) {
     }
   };
 
+  const resetProductsList = async () => {
+    try {
+      dispatch(setProductsLoadingState("loading"));
+
+      dispatch(removeProducts());
+      dispatch(setProductsLoadingState("success"));
+    } catch (error) {
+      dispatch(setProductsLoadingState("error"));
+    }
+  }
+
+  const resetShoppingList = async () => {
+    try {
+      dispatch(setProductsLoadingState("loading"));
+
+      dispatch(removeProducts());
+      dispatch(removeProductsFromShoppingList("success"));
+    } catch (error) {
+      dispatch(setProductsLoadingState("error"));
+    }
+  }
+
   return (
     <div className={styles.headerWrapper}>
       <div className={styles.signedUserInfo}>
@@ -45,6 +69,19 @@ function Header(props) {
         >
           Załaduj produkty
         </Button>
+        <Button
+          variant="contained"
+          onClick={() => resetProductsList("products")}
+        >
+          Wyczyść listę produktów
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => resetShoppingList("products")}
+        >
+          Wyczyść listę zakupową
+        </Button>
+
         <Link to="/">
           <Button onClick={handleButtonClick} variant="contained" color="error">
             Wyloguj

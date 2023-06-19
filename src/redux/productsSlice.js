@@ -5,7 +5,7 @@ export const productsSlice = createSlice({
   name: "products",
   initialState: {
     list: [],
-    shoppingList: [],
+    c: [],
     selectedProduct: null,
     productsLoadingState: "initial",
     responseError: "",
@@ -17,6 +17,9 @@ export const productsSlice = createSlice({
     },
     removeProducts: (state) => {
       state.list = [];
+    },
+    removeProductsFromShoppingList: (state) => {
+      state.shoppingList = [];
     },
     setSelectedProducts: (state, value) => {
       state.selectedProduct = value.payload;
@@ -70,6 +73,7 @@ export const {
   setFilteredProductsbyFood,
   setFilteredProductsbyValue,
   removeAllProducts,
+  removeProductsFromShoppingList
 } = productsSlice.actions;
 
 export default productsSlice.reducer;
