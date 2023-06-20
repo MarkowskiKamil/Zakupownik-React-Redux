@@ -6,6 +6,7 @@ import LoginPage from "./components/LoginPage/LoginPage";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Page404 from "./components/Page404/Page404";
+import ProductDetails from "./components/ProductDetails/ProductDetails";
 import store from "./redux/store";
 import { Provider } from "react-redux";
 
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     children: [
       // ...
     ],
+  },
+  {
+    path: 'products/details/:id',
+    element: <ProductDetails />,
   },
 ]);
 

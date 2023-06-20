@@ -14,6 +14,7 @@ import {
   setShoppingListState,
   setShoppingList,
   setFilteredProductsbyValue,
+  setFilteredProductsbyFood
 } from "../../redux/productsSlice";
 
 function ProductsFilters() {
@@ -29,7 +30,7 @@ function ProductsFilters() {
     dispatch(setFilteredProductsbyValue(searchValue));
   };
   const filteredByFood = () => {
-    dispatch(setFilteredProductsbyValue(isFoodCategory));
+    dispatch(setFilteredProductsbyFood(isFoodCategory));
   };
   const setInitialValues = async () => {
     try {
@@ -38,7 +39,6 @@ function ProductsFilters() {
       const response = await axios.get(`http://localhost:9000/products`);
       dispatch(setInitialProductsList(response.data));
       dispatch(setProductsLoadingState("success"));
-      dispatch(setInitialProductsList(response.data));
       setInitialValuesShoppingList();
       document.getElementById("loader").id = "normalBtn";
     } catch (e) {
@@ -60,20 +60,29 @@ function ProductsFilters() {
     }
   };
   useEffect(() => {
-    initialProducts();
-    filteredByValue();
-    if (isFoodCategory) {
-      filteredByFood();
-    }
+    const fetchData = async () => {
+      await initialProducts();
+      await filteredByValue();
+      if (isFoodCategory) {
+        filteredByFood();
+      }
+    };
+  
+    fetchData();
   }, [searchValue]);
   useEffect(() => {
     if (isFoodCategory) {
       filteredByFood();
     } else {
-      initialProducts();
-      if (searchValue) {
-        filteredByValue();
-      }
+      const fetchData = async () => {
+        await initialProducts();
+        await filteredByValue();
+        if (isFoodCategory) {
+          filteredByFood();
+        }
+      };
+    
+      fetchData();
     }
   }, [isFoodCategory]);
   const onChangeSearchValue = (event) => {
@@ -86,15 +95,6 @@ function ProductsFilters() {
   return (
     <>
       <div className={styles.FiltersHeaderWrapper}>
-        <div className={styles.buttons}>
-          <Button
-            id="loader"
-            className={styles.buttons}
-            onClick={setInitialValues}
-          >
-            Load products
-          </Button>
-        </div>
         <div>
           <FormGroup className={styles.filtersForm}>
             <FormControlLabel

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PS 11 - 27.05.2023 Zadanie zaliczeniowe (sem2) - "Zakupownik "Online" "
 
 Maksymalna ilość punktów: 5
@@ -79,3 +80,6 @@ Lista dostępnych event.key /event.keyCodes - https://www.freecodecamp.org/news/
 
 
 Powodzenia !!!
+=======
+PS1 20.11.2022 - https://github.com/niczyporukm/react2223/tree/ps1-20-11-2022
+>>>>>>> 4e6b2ed (Update README.md)

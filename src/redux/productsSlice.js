@@ -5,7 +5,7 @@ export const productsSlice = createSlice({
   name: "products",
   initialState: {
     list: [],
-    c: [],
+    shoppingList: [],
     selectedProduct: null,
     productsLoadingState: "initial",
     responseError: "",
@@ -21,7 +21,7 @@ export const productsSlice = createSlice({
     removeProductsFromShoppingList: (state) => {
       state.shoppingList = [];
     },
-    setSelectedProducts: (state, value) => {
+    setSelectedProduct: (state, value) => {
       state.selectedProduct = value.payload;
     },
     removeProduct: (state, value) => {
@@ -31,7 +31,7 @@ export const productsSlice = createSlice({
       );
     },
     removeAllProducts: (state) => {
-      state.shoppingListState = [];
+      state.shoppingList = [];
     },
     setProductsLoadingState: (state, value) => {
       state.productsLoadingState = value.payload;

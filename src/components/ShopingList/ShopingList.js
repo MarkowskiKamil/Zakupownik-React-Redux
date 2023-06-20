@@ -14,55 +14,54 @@ import {
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
+
 function ShoppingList() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loadingStatus = useSelector(
-    (state) => state.products.productsLoadingState
+    (state) => state.products.shoppingListState
   );
 
-  const productsList = useSelector((state) => state.products.list);
+
 
   const removeFromShoppingList = async (id) => {
     try {
       dispatch(setShoppingListState("loading"));
       const response = await axios.delete(
-        `http://localhost:9000/products/shoppingList${id}`
+        `http://localhost:9000/products/shoppingList/${id}`
       );
-      dispatch(updateShoppingList(response.data));
-    } catch {
+      console.log(response.data)
+      const listAfterRemoveItem = await axios.get(
+        `http://localhost:9000/products/shoppingList`
+      );
+      console.log(listAfterRemoveItem.data)
+      dispatch(setShoppingList(listAfterRemoveItem.data));
+      dispatch(setShoppingListState("success"));
+    } catch (error) {
       dispatch(setShoppingListState("error"));
+      console.log("Error", error)
     }
   };
 
-  const updateShoppingList = async (id) => {
-    try {
-      dispatch(setShoppingListState("loading"));
-      const response = await axios.get(
-        `http://localhost:9000/products/shoppingList${id}`
-      );
-      dispatch(setShoppingList(response.data));
-      dispatch(setShoppingListState("loading"));
-    } catch {
-      dispatch(setShoppingListState("error"));
-    }
-  };
 
   const getShoppingList = (store) => {
     return store.products.shoppingList;
   };
 
-  const getProductsDetails = async (product) => {
+  const getProductsDetails = async (id) => {
     try {
       dispatch(setProductsLoadingState("loading"));
-      const response = await axios.get(
-        `http://localhost:9000/airports/${product.id}/delayed`
-      );
-      dispatch(setSelectedProduct(response.data));
+      const response = await axios.get(`http://localhost:9000/products/shoppingList`);
+      const products = response.data;
+  
+      const selectedProduct = products.find(product => product.id === id);
+  
+      dispatch(setSelectedProduct(selectedProduct));
       dispatch(setProductsLoadingState("success"));
-      navigate(`/product/details/${product.id}`);
+      navigate(`/products/details/${id}`);
     } catch (error) {
       dispatch(setProductsLoadingState("error"));
+      console.log("Error", error);
     }
   };
 
@@ -82,7 +81,7 @@ function ShoppingList() {
               onContextMenu={() => getProductsDetails(product.id)}
             >
               {" "}
-              {product.id + 1}.{product.name}{" "}
+              {product.id2}.{product.name}{" "}
             </span>
           ))
         ) : (
